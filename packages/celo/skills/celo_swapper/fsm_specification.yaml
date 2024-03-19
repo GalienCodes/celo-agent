@@ -1,0 +1,46 @@
+alphabet_in:
+- DONE
+- NO_MAJORITY
+- ROUND_TIMEOUT
+- MECH
+- SWAP
+- STRATEGY
+default_start_state: MarketDataCollectionRound
+final_states:
+- FinishedMechRequestPreparationRound
+- FinishedSwapPreparationRound
+- FinishedStrategyEvaluationRound
+label: CeloSwapperAbciApp
+start_states:
+- MarketDataCollectionRound
+- StrategyEvaluationRound
+- DecisionMakingRound
+states:
+- MarketDataCollectionRound
+- StrategyEvaluationRound
+- FinishedStrategyEvaluationRound
+- MechRequestPreparationRound
+- FinishedMechRequestPreparationRound
+- SwapPreparationRound
+- FinishedSwapPreparationRound
+- DecisionMakingRound
+- FinishedDecisionMakingRound
+transition_func:
+    (MarketDataCollectionRound, DONE): StrategyEvaluationRound
+    (MarketDataCollectionRound, NO_MAJORITY): MarketDataCollectionRound
+    (MarketDataCollectionRound, ROUND_TIMEOUT): MarketDataCollectionRound
+    (StrategyEvaluationRound, DONE): FinishedStrategyEvaluationRound
+    (StrategyEvaluationRound, MECH): MechRequestPreparationRound
+    (StrategyEvaluationRound, SWAP): SwapPreparationRound
+    (StrategyEvaluationRound, NO_MAJORITY): StrategyEvaluationRound
+    (StrategyEvaluationRound, ROUND_TIMEOUT): StrategyEvaluationRound
+    (MechRequestPreparationRound, DONE): FinishedMechRequestPreparationRound
+    (MechRequestPreparationRound, NO_MAJORITY): MechRequestPreparationRound
+    (MechRequestPreparationRound, ROUND_TIMEOUT): MechRequestPreparationRound
+    (SwapPreparationRound, DONE): FinishedSwapPreparationRound
+    (SwapPreparationRound, NO_MAJORITY): SwapPreparationRound
+    (SwapPreparationRound, ROUND_TIMEOUT): SwapPreparationRound
+    (DecisionMakingRound, MECH): FinishedDecisionMakingRound
+    (DecisionMakingRound, STRATEGY): StrategyEvaluationRound
+    (DecisionMakingRound, NO_MAJORITY): DecisionMakingRound
+    (DecisionMakingRound, ROUND_TIMEOUT): DecisionMakingRound
