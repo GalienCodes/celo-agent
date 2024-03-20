@@ -35,7 +35,7 @@ skills:
 - valory/registration_abci:0.1.0:bafybeibzduasg5pahk2d2glc36wlopg54ybwcdmjqbzozt2lmkp4reqsdu
 - valory/reset_pause_abci:0.1.0:bafybeib3geaw3o35aigmb4dhplxrjlsef7hbdwrozu4akiunlgyiegshj4
 - celo/celo_swapper_abci:0.1.0:bafybeiad6fpjv2msn3p3yrramn7x3kwjlhdcaej3imc3qlrd23bzzbmlim
-- celo/celo_swapper_chained_abci:0.1.0:bafybeifeaqb74athrf4rdykpbubg7mvudl3bisr6triu4nttk3x6qac5lq
+- celo/celo_swapper_chained_abci:0.1.0:bafybeidu4mbhsogeby7vcvggdo3z2t5svswlgyhkcwoabxqx6fapq6imrm
 default_ledger: ethereum
 required_ledgers:
 - ethereum

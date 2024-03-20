@@ -6,7 +6,7 @@ description: The chained abci for the celo_swapper skill.
 license: Apache-2.0
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
-  __init__.py: bafybeifwoagyfjwosklbtbreump5xwjfw5r2udjybaezql2iy55vc6qz5a
+  __init__.py: bafybeignlcsitiyh7szah2t3jbme7d5b7rv4unegw3mpnepdmi4ul7h4bq
   behaviours.py: bafybeibv3ovkgkgmyibl6t7pi45o2luwtonp2eyzza2e25m4zbpt3iyny4
   composition.py: bafybeig4wndlwj3ibsvxwrfpl3ihkpettgkndzvp6hrmkqotu4gsczir4m
   dialogues.py: bafybeiakqfqcpg7yrxt4bsyernhy5p77tci4qhmgqqjqi3ttx7zk6sklca
