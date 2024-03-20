@@ -1,0 +1,4 @@
+7a7db5e273b1625c49fb604d041dddaadb201ee1:packages/celo/skills/celo_swapper/skill.yaml:generic-api-key:80
+c3a1dd916c949ead27cee125908ce8420a98eadd:packages/celo/skills/celo_swapper_chained_abci/skill.yaml:generic-api-key:85
+c3a1dd916c949ead27cee125908ce8420a98eadd:packages/celo/services/celo_swapper/service.yaml:generic-api-key:63
+c3a1dd916c949ead27cee125908ce8420a98eadd:packages/celo/agents/celo_swapper/aea-config.yaml:generic-api-key:125
