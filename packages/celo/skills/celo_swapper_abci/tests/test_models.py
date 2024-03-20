@@ -19,7 +19,7 @@
 
 """Test the models.py module of the CeloSwapper."""
 
-from packages.celo.skills.celo_swapper.models import SharedState
+from packages.celo.skills.celo_swapper_abci.models import SharedState
 from packages.valory.skills.abstract_round_abci.test_tools.base import DummyContext
 
 

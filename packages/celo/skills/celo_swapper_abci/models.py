@@ -19,7 +19,7 @@
 
 """This module contains the shared state for the abci skill of CeloSwapperAbciApp."""
 
-from packages.celo.skills.celo_swapper.rounds import CeloSwapperAbciApp
+from packages.celo.skills.celo_swapper_abci.rounds import CeloSwapperAbciApp
 from packages.valory.skills.abstract_round_abci.models import BaseParams
 from packages.valory.skills.abstract_round_abci.models import (
     BenchmarkTool as BaseBenchmarkTool,

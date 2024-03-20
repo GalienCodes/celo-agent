@@ -19,7 +19,7 @@
 
 """Test the dialogues.py module of the CeloSwapper."""
 
-import packages.celo.skills.celo_swapper.dialogues  # noqa
+import packages.celo.skills.celo_swapper_abci.dialogues  # noqa
 
 
 def test_import() -> None:

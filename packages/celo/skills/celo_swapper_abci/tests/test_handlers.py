@@ -19,7 +19,7 @@
 
 """Test the handlers.py module of the CeloSwapper."""
 
-import packages.celo.skills.celo_swapper.handlers  # noqa
+import packages.celo.skills.celo_swapper_abci.handlers  # noqa
 
 
 def test_import() -> None:

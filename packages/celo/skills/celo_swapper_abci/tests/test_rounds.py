@@ -24,7 +24,7 @@ from typing import Any, Callable, Dict, Hashable, List, Mapping, Type
 
 import pytest
 
-from packages.celo.skills.celo_swapper.payloads import (
+from packages.celo.skills.celo_swapper_abci.payloads import (
     DecisionMakingPayload,
     FinishedDecisionMakingPayload,
     MarketDataCollectionPayload,
@@ -32,7 +32,7 @@ from packages.celo.skills.celo_swapper.payloads import (
     StrategyEvaluationPayload,
     SwapPreparationPayload,
 )
-from packages.celo.skills.celo_swapper.rounds import (
+from packages.celo.skills.celo_swapper_abci.rounds import (
     AbstractRound,
     DecisionMakingRound,
     Event,

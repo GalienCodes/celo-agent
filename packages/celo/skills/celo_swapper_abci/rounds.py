@@ -22,7 +22,7 @@
 from enum import Enum
 from typing import Dict, FrozenSet, List, Optional, Set, Tuple
 
-from packages.celo.skills.celo_swapper.payloads import (
+from packages.celo.skills.celo_swapper_abci.payloads import (
     DecisionMakingPayload,
     FinishedDecisionMakingPayload,
     MarketDataCollectionPayload,

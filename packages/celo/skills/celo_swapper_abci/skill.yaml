@@ -7,20 +7,20 @@ license: Apache-2.0
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
   __init__.py: bafybeiabqsl7ffcztsgwmik4fx4tcmwcddxi2f4giinoqhbaz6aan4x7ru
-  behaviours.py: bafybeifnr422me2w35ttmiqmvsxtgamnaf2fdhqbuin4gx5isenu2xdgw4
+  behaviours.py: bafybeigg46h7x4e67fibnpguggegju2j4qi5v66hwsjd5hkehrf3qy27te
   dialogues.py: bafybeih3amhbmmqemcznqfskjxecv2uumvbkq637p7kishs52pxcod5pou
   fsm_specification.yaml: bafybeidouohgsdoitno4bxmd4zb5cnr45w3swd56lalfkveg55i3oogjra
   handlers.py: bafybeifdib522kpljoxhzr2a5a44dxswxp46faejfgvv2reevb3dveyo5i
-  models.py: bafybeiacykpi2ev7xihcz7zmzcfwkhvqlt7yr4wcsfy3o7gutu3wgxpsyq
+  models.py: bafybeihgno6kfxbjhwabbhihx7u4mgkg5eeun2uvvjyn2amorgj5mbsab4
   payloads.py: bafybeidn67hmqfa43vypexft7c5izjrsmowcn3v752zvgrprumbj2q66hm
-  rounds.py: bafybeidxhxvqdizoirp4cs6nhetttt7ej4a4ho7gre4kbr5yfrmppvd7l4
+  rounds.py: bafybeigjpxkocmycw2yl3sadq3fg73affedjub3aynalkwmgaptdqjmspq
   tests/__init__.py: bafybeidlhllgpf65xwk357wukpguuaz6hxhkyh7dwplv2xkxlrlk4b7zty
-  tests/test_behaviours.py: bafybeiau5txpplxpwfmyv36zcbwbhl7js4anrpxhtdo3iqw7zbanf3hw7m
-  tests/test_dialogues.py: bafybeihq5rzcnzexjdi6mg2vokffg7vnjqnrlws2aer7a2qewkq4fpfd4q
-  tests/test_handlers.py: bafybeidbjuyp6ke63wb6cg3mx3i3ntsdhviyxts3n2o2kfbh7d4o7xajqa
-  tests/test_models.py: bafybeicr5w7g5hkvu47fbb7hn36ia5tjf73sa3etwwxjyieybz3ga442hi
-  tests/test_payloads.py: bafybeigtc4edzhaxn3goy44tkzepon5ihiwlp6fjp6gmguwuiry7dra24y
-  tests/test_rounds.py: bafybeihp5svjhymlnr7zitlb5pbgbq5amxjhyqsucjb4exhgiotwijz5ym
+  tests/test_behaviours.py: bafybeic2nrj75xdz7huc53xamhogyuhoxlfxzytwaqaaw4xtbqxmeefv3a
+  tests/test_dialogues.py: bafybeice67mp65svkckeveidiwemydfjdef7nnf2cdsygbmswmg6yzvbzu
+  tests/test_handlers.py: bafybeiazvxwdasj44btjm4zlu7nfrtjdwpo4744lo25scmwctxaagdx63u
+  tests/test_models.py: bafybeiaf3vzgabp4jlo5mxnstpg7k3dcu7ruczeq4wzexyzcewrxl2wwtq
+  tests/test_payloads.py: bafybeie4nfejuek27336m3vjy45sukr42salvfya3hn2jn7e4beo2ksn6a
+  tests/test_rounds.py: bafybeigx4grdnrxj7dblaupjydhkgq5t5mqnng6rsrrko4p5jhjhcphzbi
 fingerprint_ignore_patterns: []
 connections: []
 contracts: []

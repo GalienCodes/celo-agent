@@ -22,8 +22,8 @@
 from abc import ABC
 from typing import Generator, Set, Type, cast
 
-from packages.celo.skills.celo_swapper.models import Params
-from packages.celo.skills.celo_swapper.rounds import (
+from packages.celo.skills.celo_swapper_abci.models import Params
+from packages.celo.skills.celo_swapper_abci.rounds import (
     CeloSwapperAbciApp,
     DecisionMakingPayload,
     DecisionMakingRound,

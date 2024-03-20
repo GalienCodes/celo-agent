@@ -24,7 +24,7 @@ from typing import Hashable, Type
 
 import pytest
 
-from packages.celo.skills.celo_swapper.payloads import (
+from packages.celo.skills.celo_swapper_abci.payloads import (
     BaseTxPayload,
     DecisionMakingPayload,
     FinishedDecisionMakingPayload,

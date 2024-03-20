@@ -25,7 +25,7 @@ from typing import Any, Dict, Hashable, Optional, Type
 
 import pytest
 
-from packages.celo.skills.celo_swapper.behaviours import (
+from packages.celo.skills.celo_swapper_abci.behaviours import (
     CeloSwapperBaseBehaviour,
     CeloSwapperRoundBehaviour,
     DecisionMakingBehaviour,
@@ -35,7 +35,7 @@ from packages.celo.skills.celo_swapper.behaviours import (
     StrategyEvaluationBehaviour,
     SwapPreparationBehaviour,
 )
-from packages.celo.skills.celo_swapper.rounds import (
+from packages.celo.skills.celo_swapper_abci.rounds import (
     CeloSwapperAbciApp,
     DecisionMakingRound,
     DegenerateRound,
