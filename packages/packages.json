@@ -1,8 +1,8 @@
 {
     "dev": {
-        "skill/celo/celo_swapper_abci/0.1.0": "bafybeifleyxsclpmltzh5rlb52fvnr3mtjoaxjkylfxmzsganin2fepglq",
-        "skill/celo/celo_swapper_chained_abci/0.1.0": "bafybeicbnzqpdhyhlbmzxcrfbtvj7jgirlkikzcw43urkcelvhocxitmnq",
-        "agent/celo/celo_swapper/0.1.0": "bafybeihgsycitrmd6hwjrqmaisifwtxpgso4a36k2cdruymxol2dcodkfy",
+        "skill/celo/celo_swapper_abci/0.1.0": "bafybeia23hd7uw4czwzm3kdipzgqliurzi22askvc24qv3r746ht5yoscu",
+        "skill/celo/celo_swapper_chained_abci/0.1.0": "bafybeigvgbp2atwhww6j54mnnsv3aj5qrr2gcnzfxxdo5a5kt2mmihooh4",
+        "agent/celo/celo_swapper/0.1.0": "bafybeidviqd2e7k5avckui3qo7ki3vuwehbmhp5dxbqcjxzj6cakcccq6u",
         "service/celo/celo_swapper/0.1.0": "bafybeidba5fezhvi6c4e3jb3bqnv2twm7ti2py5ahfaquizx5u7qdlxa3e"
     },
     "third_party": {
