@@ -19,18 +19,12 @@
 
 """This package contains round behaviours of CeloSwapperAbciApp."""
 
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, Hashable, Optional, Type
-from dataclasses import dataclass, field
 
 import pytest
 
-from packages.valory.skills.abstract_round_abci.base import AbciAppDB
-from packages.valory.skills.abstract_round_abci.behaviours import (
-    AbstractRoundBehaviour,
-    BaseBehaviour,
-    make_degenerate_behaviour,
-)
 from packages.celo.skills.celo_swapper.behaviours import (
     CeloSwapperBaseBehaviour,
     CeloSwapperRoundBehaviour,
@@ -42,11 +36,10 @@ from packages.celo.skills.celo_swapper.behaviours import (
     SwapPreparationBehaviour,
 )
 from packages.celo.skills.celo_swapper.rounds import (
-    SynchronizedData,
-    DegenerateRound,
-    Event,
     CeloSwapperAbciApp,
     DecisionMakingRound,
+    DegenerateRound,
+    Event,
     FinishedDecisionMakingRound,
     FinishedMechRequestPreparationRound,
     FinishedStrategyEvaluationRound,
@@ -55,8 +48,14 @@ from packages.celo.skills.celo_swapper.rounds import (
     MechRequestPreparationRound,
     StrategyEvaluationRound,
     SwapPreparationRound,
+    SynchronizedData,
 )
-
+from packages.valory.skills.abstract_round_abci.base import AbciAppDB
+from packages.valory.skills.abstract_round_abci.behaviours import (
+    AbstractRoundBehaviour,
+    BaseBehaviour,
+    make_degenerate_behaviour,
+)
 from packages.valory.skills.abstract_round_abci.test_tools.base import (
     FSMBehaviourBaseCase,
 )
@@ -216,4 +215,3 @@ class TestSwapPreparationBehaviour(BaseCeloSwapperTest):
         # TODO: mock the necessary calls
         # self.mock_ ...
         self.complete(test_case.event)
-

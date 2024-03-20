@@ -24,4 +24,3 @@ import packages.celo.skills.celo_swapper.handlers  # noqa
 
 def test_import() -> None:
     """Test that the 'handlers.py' of the CeloSwapper can be imported."""
-

@@ -22,30 +22,27 @@
 from abc import ABC
 from typing import Generator, Set, Type, cast
 
+from packages.celo.skills.celo_swapper.models import Params
+from packages.celo.skills.celo_swapper.rounds import (
+    CeloSwapperAbciApp,
+    DecisionMakingPayload,
+    DecisionMakingRound,
+    FinishedDecisionMakingPayload,
+    FinishedDecisionMakingRound,
+    MarketDataCollectionPayload,
+    MarketDataCollectionRound,
+    MechRequestPreparationPayload,
+    MechRequestPreparationRound,
+    StrategyEvaluationPayload,
+    StrategyEvaluationRound,
+    SwapPreparationPayload,
+    SwapPreparationRound,
+    SynchronizedData,
+)
 from packages.valory.skills.abstract_round_abci.base import AbstractRound
 from packages.valory.skills.abstract_round_abci.behaviours import (
     AbstractRoundBehaviour,
     BaseBehaviour,
-)
-
-from packages.celo.skills.celo_swapper.models import Params
-from packages.celo.skills.celo_swapper.rounds import (
-    SynchronizedData,
-    CeloSwapperAbciApp,
-    DecisionMakingRound,
-    FinishedDecisionMakingRound,
-    MarketDataCollectionRound,
-    MechRequestPreparationRound,
-    StrategyEvaluationRound,
-    SwapPreparationRound,
-)
-from packages.celo.skills.celo_swapper.rounds import (
-    DecisionMakingPayload,
-    FinishedDecisionMakingPayload,
-    MarketDataCollectionPayload,
-    MechRequestPreparationPayload,
-    StrategyEvaluationPayload,
-    SwapPreparationPayload,
 )
 
 
@@ -194,5 +191,5 @@ class CeloSwapperRoundBehaviour(AbstractRoundBehaviour):
         MarketDataCollectionBehaviour,
         MechRequestPreparationBehaviour,
         StrategyEvaluationBehaviour,
-        SwapPreparationBehaviour
+        SwapPreparationBehaviour,
     ]

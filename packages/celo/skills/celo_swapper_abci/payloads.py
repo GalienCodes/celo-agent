@@ -64,4 +64,3 @@ class SwapPreparationPayload(BaseTxPayload):
     """Represent a transaction payload for the SwapPreparationRound."""
 
     # TODO: define your attributes
-

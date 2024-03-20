@@ -22,6 +22,14 @@
 from enum import Enum
 from typing import Dict, FrozenSet, List, Optional, Set, Tuple
 
+from packages.celo.skills.celo_swapper.payloads import (
+    DecisionMakingPayload,
+    FinishedDecisionMakingPayload,
+    MarketDataCollectionPayload,
+    MechRequestPreparationPayload,
+    StrategyEvaluationPayload,
+    SwapPreparationPayload,
+)
 from packages.valory.skills.abstract_round_abci.base import (
     AbciApp,
     AbciAppTransitionFunction,
@@ -30,15 +38,6 @@ from packages.valory.skills.abstract_round_abci.base import (
     BaseSynchronizedData,
     DegenerateRound,
     EventToTimeout,
-)
-
-from packages.celo.skills.celo_swapper.payloads import (
-    DecisionMakingPayload,
-    FinishedDecisionMakingPayload,
-    MarketDataCollectionPayload,
-    MechRequestPreparationPayload,
-    StrategyEvaluationPayload,
-    SwapPreparationPayload,
 )
 
 
@@ -109,7 +108,6 @@ class SwapPreparationRound(AbstractRound):
     synchronized_data_class = SynchronizedData
 
 
-
 class FinishedMechRequestPreparationRound(DegenerateRound):
     """FinishedMechRequestPreparationRound"""
 
@@ -126,51 +124,59 @@ class CeloSwapperAbciApp(AbciApp[Event]):
     """CeloSwapperAbciApp"""
 
     initial_round_cls: AppState = MarketDataCollectionRound
-    initial_states: Set[AppState] = {DecisionMakingRound, MarketDataCollectionRound, StrategyEvaluationRound}
+    initial_states: Set[AppState] = {
+        DecisionMakingRound,
+        MarketDataCollectionRound,
+        StrategyEvaluationRound,
+    }
     transition_function: AbciAppTransitionFunction = {
         MarketDataCollectionRound: {
             Event.DONE: StrategyEvaluationRound,
             Event.NO_MAJORITY: MarketDataCollectionRound,
-            Event.ROUND_TIMEOUT: MarketDataCollectionRound
+            Event.ROUND_TIMEOUT: MarketDataCollectionRound,
         },
         StrategyEvaluationRound: {
             Event.DONE: FinishedStrategyEvaluationRound,
             Event.MECH: MechRequestPreparationRound,
             Event.SWAP: SwapPreparationRound,
             Event.NO_MAJORITY: StrategyEvaluationRound,
-            Event.ROUND_TIMEOUT: StrategyEvaluationRound
+            Event.ROUND_TIMEOUT: StrategyEvaluationRound,
         },
         MechRequestPreparationRound: {
             Event.DONE: FinishedMechRequestPreparationRound,
             Event.NO_MAJORITY: MechRequestPreparationRound,
-            Event.ROUND_TIMEOUT: MechRequestPreparationRound
+            Event.ROUND_TIMEOUT: MechRequestPreparationRound,
         },
         SwapPreparationRound: {
             Event.DONE: FinishedSwapPreparationRound,
             Event.NO_MAJORITY: SwapPreparationRound,
-            Event.ROUND_TIMEOUT: SwapPreparationRound
+            Event.ROUND_TIMEOUT: SwapPreparationRound,
         },
         DecisionMakingRound: {
             Event.MECH: FinishedDecisionMakingRound,
             Event.STRATEGY: StrategyEvaluationRound,
             Event.NO_MAJORITY: DecisionMakingRound,
-            Event.ROUND_TIMEOUT: DecisionMakingRound
+            Event.ROUND_TIMEOUT: DecisionMakingRound,
         },
         FinishedDecisionMakingRound: {},
         FinishedSwapPreparationRound: {},
         FinishedMechRequestPreparationRound: {},
-        FinishedStrategyEvaluationRound: {}
+        FinishedStrategyEvaluationRound: {},
     }
-    final_states: Set[AppState] = {FinishedStrategyEvaluationRound, FinishedMechRequestPreparationRound, FinishedSwapPreparationRound}
+    final_states: Set[AppState] = {
+        FinishedStrategyEvaluationRound,
+        FinishedMechRequestPreparationRound,
+        FinishedSwapPreparationRound,
+    }
     event_to_timeout: EventToTimeout = {}
     cross_period_persisted_keys: FrozenSet[str] = frozenset()
     db_pre_conditions: Dict[AppState, Set[str]] = {
         DecisionMakingRound: set(),
-    	MarketDataCollectionRound: set(),
-    	StrategyEvaluationRound: set(),
+        MarketDataCollectionRound: set(),
+        StrategyEvaluationRound: set(),
     }
     db_post_conditions: Dict[AppState, Set[str]] = {
         FinishedStrategyEvaluationRound: set(),
-    	FinishedMechRequestPreparationRound: set(),
-    	FinishedSwapPreparationRound: set(),
+        FinishedMechRequestPreparationRound: set(),
+        FinishedSwapPreparationRound: set(),
     }

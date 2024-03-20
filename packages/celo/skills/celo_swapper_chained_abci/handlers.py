@@ -22,7 +22,9 @@
 from packages.celo.skills.celo_swapper_abci.handlers import (
     FarcasterHandler as BaseFarcasterHandler,
 )
-from packages.celo.skills.celo_swapper_abci.handlers import HttpHandler as BaseHttpHandler
+from packages.celo.skills.celo_swapper_abci.handlers import (
+    HttpHandler as BaseHttpHandler,
+)
 from packages.celo.skills.celo_swapper_abci.handlers import (
     KvStoreHandler as BaseKvStoreHandler,
 )

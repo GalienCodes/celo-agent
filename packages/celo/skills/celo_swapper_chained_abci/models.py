@@ -62,9 +62,9 @@ class SharedState(BaseSharedState):
             ResetPauseEvent.RESET_AND_PAUSE_TIMEOUT
         ] = (self.context.params.reset_pause_duration + MARGIN)
 
-        CeloSwapperChainedSkillAbciApp.event_to_timeout[CeloSwapperEvent.ROUND_TIMEOUT] = (
-            self.context.params.round_timeout_seconds * MULTIPLIER
-        )
+        CeloSwapperChainedSkillAbciApp.event_to_timeout[
+            CeloSwapperEvent.ROUND_TIMEOUT
+        ] = (self.context.params.round_timeout_seconds * MULTIPLIER)
 
 
 class Params(
