@@ -5,9 +5,9 @@ description: A service that swaps on Celo.
 aea_version: '>=1.0.0, <2.0.0'
 license: Apache-2.0
 fingerprint:
-  README.md: bafybeibh5bgshii5oqjfuhwmiivfvfqy7fw5pzvarxkpe4qrgivxtc3xym
+  README.md: bafybeidwy6xfsla7zxt5sj6hcp6qd4ya4tsjl77bs6b3gsrhqiiybkir5i
 fingerprint_ignore_patterns: []
-agent: celo/celo_swapper:0.1.0:bafybeih3jswyzrfnw5u6cmjqvhnwqapo2axlcosfuenz4hpsdsjckmzluu
+agent: celo/celo_swapper_abci:0.1.0
 number_of_agents: 1
 deployment:
   agent:
@@ -85,20 +85,6 @@ extra:
         tendermint_max_retries: 5
         tendermint_url: ${TENDERMINT_URL:str:http://localhost:26657}
         tendermint_p2p_url: ${TENDERMINT_P2P_URL_0:str:celo_swapper_tm_0:26656}
-        token_uri_base: ${TOKEN_URI_BASE:str:https://pfp.staging.autonolas.tech/}
-        whitelist_api_key: null
-        whitelist_endpoint: http://localhost
-        points_to_image_hashes: ${POINTS_TO_IMAGE_HASHES:str:null}
-        twitter_api_base: ${TWITTER_API_BASE:str:https://api.twitter.com/}
-        twitter_api_bearer_token: ${TWITTER_API_BEARER_TOKEN:str:null}
-        twitter_mentions_endpoint: ${TWITTER_MENTIONS_ENDPOINT:str:2/users/1450081635559428107/mentions?}
-        twitter_mentions_args: ${TWITTER_MENTIONS_ARGS:str:tweet.fields=author_id&user.fields=name&expansions=author_id&max_results=25&since_id={since_id}}
-        twitter_max_pages: ${TWITTER_MAX_PAGES:int:1}
-        max_tweet_pulls_allowed: ${MAX_TWEET_PULLS_ALLOWED:int:80}
-        twitter_search_endpoint: ${TWITTER_SEARCH_ENDPOINT:str:2/tweets/search/recent?}
-        twitter_search_args: ${TWITTER_SEARCH_ARGS:str:query=%23OlasNetwork&tweet.fields=author_id,created_at,conversation_id&user.fields=name&expansions=author_id&max_results=25&since_id={since_id}}
-        twitter_tweets_endpoint: ${TWITTER_TWEETS_ENDPOINT:str:2/users/1450081635559428107/tweets?}
-        twitter_tweets_args: ${TWITTER_TWEETS_ARGS:str:tweet.fields=author_id,created_at,conversation_id&user.fields=name&expansions=author_id&max_results=50&start_time={start_time}}
         tx_timeout: 10.0
         use_termination: ${USE_TERMINATION:bool:true}
         validate_timeout: 1205

@@ -1,4 +1,4 @@
-name: celo_swapper_chained
+name: celo_swapper_chained_abci
 author: celo
 version: 0.1.0
 type: skill
@@ -6,13 +6,13 @@ description: The chained abci for the celo_swapper skill.
 license: Apache-2.0
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
-  __init__.py: bafybeid3dfxtr5ct2cxdhyzqsplkcio5idj74hw5wbekuychahve6qak7a
-  behaviours.py: bafybeiaunn4by5r6y6rhc7kzyslh7cz7lvqgjcxnpltj3okjpbjrnj4f6q
-  composition.py: bafybeigsupdf7ais6bgkoptbopwkzl4lmsdwsz6v5xmeqa7t7lkwwikcl4
-  dialogues.py: bafybeifztypshmkfnkn445xnhzdcmnwalduts7kubuksfn3ggm6nl75fsa
-  fsm_specification.yaml: bafybeiag7ve5xxfefusjpm6wm33msl3s6fdwge24krellqxpfofqqsj6pe
-  handlers.py: bafybeiey53s2hlypgfhb54qwmig4tt3yzy4pauiknybnuzinpvwly3zmgi
-  models.py: bafybeihmkcafhcaoa3jo7kond3zdsd7mgizgu4ssu7nhqpcjbnpr5ncm7u
+  __init__.py: bafybeifwoagyfjwosklbtbreump5xwjfw5r2udjybaezql2iy55vc6qz5a
+  behaviours.py: bafybeibv3ovkgkgmyibl6t7pi45o2luwtonp2eyzza2e25m4zbpt3iyny4
+  composition.py: bafybeig4wndlwj3ibsvxwrfpl3ihkpettgkndzvp6hrmkqotu4gsczir4m
+  dialogues.py: bafybeiakqfqcpg7yrxt4bsyernhy5p77tci4qhmgqqjqi3ttx7zk6sklca
+  fsm_specification.yaml: bafybeibfh25zomjjacmlllrfdjfofptdcrlproar267oexhz3jcx2z3a7y
+  handlers.py: bafybeicj2wcb2yiudlzn36d6wzu2hfw3bupswvvhparvms7syhajfu2rk4
+  models.py: bafybeicbrtbdbw7gy6xoex7s4agiy3ky56qgz3uodtwq4uwxxlthh4fkiy
 fingerprint_ignore_patterns: []
 connections: []
 contracts: []
@@ -22,7 +22,7 @@ skills:
 - valory/registration_abci:0.1.0:bafybeibzduasg5pahk2d2glc36wlopg54ybwcdmjqbzozt2lmkp4reqsdu
 - valory/reset_pause_abci:0.1.0:bafybeib3geaw3o35aigmb4dhplxrjlsef7hbdwrozu4akiunlgyiegshj4
 - valory/termination_abci:0.1.0:bafybeifnfuy3svz5oz6kwglu35q6jn7ai3riqplyypskb7za5ejyvjmfza
-- celo/celo_swapper_abci:0.1.0:bafybeicpge4qrwpac26esh35pzbnr6k4aipoqftuhdvwcys7r3jgtafnmy
+- celo/celo_swapper_abci:0.1.0:bafybeiad6fpjv2msn3p3yrramn7x3kwjlhdcaej3imc3qlrd23bzzbmlim
 behaviours:
   main:
     args: {}
@@ -49,15 +49,6 @@ handlers:
   tendermint:
     args: {}
     class_name: TendermintHandler
-  farcaster:
-    args: {}
-    class_name: FarcasterHandler
-  twitter:
-    args: {}
-    class_name: TwitterHandler
-  kvv_store:
-    args: {}
-    class_name: KvStoreHandler
 models:
   abci_dialogues:
     args: {}
@@ -116,7 +107,7 @@ models:
       retry_attempts: 400
       retry_timeout: 3
       round_timeout_seconds: 30.0
-      service_id: farcaster_test
+      service_id: celo_swapper
       service_registry_address: null
       setup:
         all_participants: []
@@ -140,15 +131,6 @@ models:
       serious_slash_unit_amount: 8000000000000000
       multisend_batch_size: 50
       tx_timeout: 10.0
-      publish_twitter: true
-      publish_farcaster: true
-      service_registry_address_ethereum: '0x48b6af7B12C71f09e2fC8aF4855De4Ff54e775cA'
-      agent_registry_address_ethereum: '0x2F1f7D38e4772884b88f3eCd8B6b9faCdC319112'
-      component_registry_address_ethereum: '0x15bd56669F57192a97dF41A2aa8f4403e9491776'
-      service_registry_address_gnosis: '0x9338b5153AE39BB89f50468E608eD9d764B755fD'
-      initial_block_ethereum: 18500000
-      initial_block_gnosis: 18500000
-      twitter_credentials: '{}'
     class_name: Params
   randomness_api:
     args:
@@ -173,14 +155,5 @@ models:
   tendermint_dialogues:
     args: {}
     class_name: TendermintDialogues
-  srr_dialogues:
-    args: {}
-    class_name: SrrDialogues
-  kv_store_dialogues:
-    args: {}
-    class_name: KvStoreDialogues
-  twitter_dialogues:
-    args: {}
-    class_name: TwitterDialogues
 dependencies: {}
 is_abstract: false

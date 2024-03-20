@@ -1,6 +1,9 @@
 {
     "dev": {
-        "skill/celo/celo_swapper/0.1.0": "bafybeid5ykpt2rf7abnzx2diuffofwddq7nielz6ikskuei4j4xtn2obie"
+        "skill/celo/celo_swapper_abci/0.1.0": "bafybeiad6fpjv2msn3p3yrramn7x3kwjlhdcaej3imc3qlrd23bzzbmlim",
+        "skill/celo/celo_swapper_chained_abci/0.1.0": "bafybeifeaqb74athrf4rdykpbubg7mvudl3bisr6triu4nttk3x6qac5lq",
+        "agent/celo/celo_swapper/0.1.0": "bafybeicqwlufxvtpsfu5hnsdbvau726b3j32bfy2we6h4a4z76t2u664ey",
+        "service/celo/celo_swapper/0.1.0": "bafybeidba5fezhvi6c4e3jb3bqnv2twm7ti2py5ahfaquizx5u7qdlxa3e"
     },
     "third_party": {
         "protocol/open_aea/signing/1.0.0": "bafybeihv62fim3wl2bayavfcg3u5e5cxu3b7brtu4cn5xoxd6lqwachasi",

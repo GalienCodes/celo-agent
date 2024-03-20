@@ -20,16 +20,7 @@
 """This module contains the handlers for the skill of CeloSwapperChainedAbciApp."""
 
 from packages.celo.skills.celo_swapper_abci.handlers import (
-    FarcasterHandler as BaseFarcasterHandler,
-)
-from packages.celo.skills.celo_swapper_abci.handlers import (
     HttpHandler as BaseHttpHandler,
-)
-from packages.celo.skills.celo_swapper_abci.handlers import (
-    KvStoreHandler as BaseKvStoreHandler,
-)
-from packages.celo.skills.celo_swapper_abci.handlers import (
-    TwitterHandler as BaseTwitterHandler,
 )
 from packages.valory.skills.abstract_round_abci.handlers import (
     ABCIRoundHandler as BaseABCIRoundHandler,
@@ -58,6 +49,3 @@ LedgerApiHandler = BaseLedgerApiHandler
 ContractApiHandler = BaseContractApiHandler
 TendermintHandler = BaseTendermintHandler
 IpfsHandler = BaseIpfsHandler
-TwitterHandler = BaseTwitterHandler
-FarcasterHandler = BaseFarcasterHandler
-KvStoreHandler = BaseKvStoreHandler

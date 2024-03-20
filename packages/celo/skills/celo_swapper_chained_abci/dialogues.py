@@ -19,24 +19,6 @@
 
 """This module contains the classes required for dialogue management."""
 
-from packages.celo.skills.celo_swapper_abci.dialogues import (
-    KvStoreDialogue as BaseKvStoreDialogue,
-)
-from packages.celo.skills.celo_swapper_abci.dialogues import (
-    KvStoreDialogues as BaseKvStoreDialogues,
-)
-from packages.celo.skills.celo_swapper_abci.dialogues import (
-    SrrDialogue as BaseSrrDialogue,
-)
-from packages.celo.skills.celo_swapper_abci.dialogues import (
-    SrrDialogues as BaseSrrDialogues,
-)
-from packages.celo.skills.celo_swapper_abci.dialogues import (
-    TwitterDialogue as BaseTwitterDialogue,
-)
-from packages.celo.skills.celo_swapper_abci.dialogues import (
-    TwitterDialogues as BaseTwitterDialogues,
-)
 from packages.valory.skills.abstract_round_abci.dialogues import (
     AbciDialogue as BaseAbciDialogue,
 )
@@ -106,15 +88,3 @@ TendermintDialogues = BaseTendermintDialogues
 
 IpfsDialogue = BaseIpfsDialogue
 IpfsDialogues = BaseIpfsDialogues
-
-
-SrrDialogue = BaseSrrDialogue
-SrrDialogues = BaseSrrDialogues
-
-
-TwitterDialogue = BaseTwitterDialogue
-TwitterDialogues = BaseTwitterDialogues
-
-
-KvStoreDialogue = BaseKvStoreDialogue
-KvStoreDialogues = BaseKvStoreDialogues

@@ -2,11 +2,10 @@ agent_name: celo_swapper
 author: celo
 version: 0.1.0
 license: Apache-2.0
-description: An agent that tracks events on the Olas ecosystem and autonomously reports
-  on it on it on Twitter and Farcaster.
+description: An agent that swaps on Celo.
 aea_version: '>=1.19.0, <2.0.0'
 fingerprint:
-  __init__.py: bafybeih5r6madrsgamzbvz7mfcoooxev7vtquoieoj6zex4hmq4eknj52i
+  __init__.py: bafybeidm4dtgeja3y7gfn272d36o4t2zccbzck4cheqd5dzsqpwl2fl3ie
 fingerprint_ignore_patterns: []
 connections:
 - valory/ipfs:0.1.0:bafybeieogncafs6j6akrvsj6oi63iwhuunjyssmhz736vrl2sku4jc77za
@@ -28,9 +27,6 @@ protocols:
 - valory/ipfs:0.1.0:bafybeiftxi2qhreewgsc5wevogi7yc5g6hbcbo4uiuaibauhv3nhfcdtvm
 - valory/ledger_api:1.0.0:bafybeihdk6psr4guxmbcrc26jr2cbgzpd5aljkqvpwo64bvaz7tdti2oni
 - valory/tendermint:0.1.0:bafybeig4mi3vmlv5zpbjbfuzcgida6j5f2nhrpedxicmrrfjweqc5r7cra
-- valory/srr:0.1.0:bafybeihrixgptxuqpf2s4nujypwlv5aed2nboozq5kl4c26cxw6r7si2x4
-- celo/kv_store:0.1.0:bafybeibkgttvuipo52vytzxknxlumxiygu4g6la4j5c27awgvign5uoqeq
-- valory/twitter:0.1.0:bafybeig7dugazhljpb4qtu4zfnoimttvivopiq574rogjz3qggf5eysnk4
 skills:
 - valory/abstract_abci:0.1.0:bafybeibvz3hi25ktgdzm25kih25o5osml62zk4kzpgmzmyrem3hzo2vtnm
 - valory/abstract_round_abci:0.1.0:bafybeic2emnylfmdtidobgdsxa4tgdelreeimtglqzrmic6cumhpsbfzhe
@@ -38,8 +34,8 @@ skills:
 - valory/transaction_settlement_abci:0.1.0:bafybeifhuemoavm6hf4vypg2sl7kng3iv4ipxgpk3itbh5hp73lworpuwq
 - valory/registration_abci:0.1.0:bafybeibzduasg5pahk2d2glc36wlopg54ybwcdmjqbzozt2lmkp4reqsdu
 - valory/reset_pause_abci:0.1.0:bafybeib3geaw3o35aigmb4dhplxrjlsef7hbdwrozu4akiunlgyiegshj4
-- celo/celo_swapper_abci:0.1.0:bafybeicpge4qrwpac26esh35pzbnr6k4aipoqftuhdvwcys7r3jgtafnmy
-- celo/celo_swapper_chained_abci:0.1.0:bafybeiarxjmy6o7v7nawlmk4z4jwfqvsk6hfep7kjpdn6jpalcxr3cksyy
+- celo/celo_swapper_abci:0.1.0:bafybeiad6fpjv2msn3p3yrramn7x3kwjlhdcaej3imc3qlrd23bzzbmlim
+- celo/celo_swapper_chained_abci:0.1.0:bafybeifeaqb74athrf4rdykpbubg7mvudl3bisr6triu4nttk3x6qac5lq
 default_ledger: ethereum
 required_ledgers:
 - ethereum
