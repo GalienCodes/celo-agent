@@ -68,24 +68,6 @@ class DecisionMakingRound(AbstractRound):
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
 
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
-    def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
-        """Process the end of the block."""
-        raise NotImplementedError
-
-    def check_payload(self, payload: DecisionMakingPayload) -> None:
-        """Check payload."""
-        raise NotImplementedError
-
-    def process_payload(self, payload: DecisionMakingPayload) -> None:
-        """Process payload."""
-        raise NotImplementedError
-
 
 class FinishedDecisionMakingRound(AbstractRound):
     """FinishedDecisionMakingRound"""
@@ -93,24 +75,6 @@ class FinishedDecisionMakingRound(AbstractRound):
     payload_class = FinishedDecisionMakingPayload
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
-
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
-    def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
-        """Process the end of the block."""
-        raise NotImplementedError
-
-    def check_payload(self, payload: FinishedDecisionMakingPayload) -> None:
-        """Check payload."""
-        raise NotImplementedError
-
-    def process_payload(self, payload: FinishedDecisionMakingPayload) -> None:
-        """Process payload."""
-        raise NotImplementedError
 
 
 class MarketDataCollectionRound(AbstractRound):
@@ -120,24 +84,6 @@ class MarketDataCollectionRound(AbstractRound):
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
 
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
-    def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
-        """Process the end of the block."""
-        raise NotImplementedError
-
-    def check_payload(self, payload: MarketDataCollectionPayload) -> None:
-        """Check payload."""
-        raise NotImplementedError
-
-    def process_payload(self, payload: MarketDataCollectionPayload) -> None:
-        """Process payload."""
-        raise NotImplementedError
-
 
 class MechRequestPreparationRound(AbstractRound):
     """MechRequestPreparationRound"""
@@ -145,24 +91,6 @@ class MechRequestPreparationRound(AbstractRound):
     payload_class = MechRequestPreparationPayload
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
-
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
-    def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
-        """Process the end of the block."""
-        raise NotImplementedError
-
-    def check_payload(self, payload: MechRequestPreparationPayload) -> None:
-        """Check payload."""
-        raise NotImplementedError
-
-    def process_payload(self, payload: MechRequestPreparationPayload) -> None:
-        """Process payload."""
-        raise NotImplementedError
 
 
 class StrategyEvaluationRound(AbstractRound):
@@ -172,24 +100,6 @@ class StrategyEvaluationRound(AbstractRound):
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
 
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
-    def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
-        """Process the end of the block."""
-        raise NotImplementedError
-
-    def check_payload(self, payload: StrategyEvaluationPayload) -> None:
-        """Check payload."""
-        raise NotImplementedError
-
-    def process_payload(self, payload: StrategyEvaluationPayload) -> None:
-        """Process payload."""
-        raise NotImplementedError
-
 
 class SwapPreparationRound(AbstractRound):
     """SwapPreparationRound"""
@@ -198,23 +108,6 @@ class SwapPreparationRound(AbstractRound):
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
 
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
-    def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
-        """Process the end of the block."""
-        raise NotImplementedError
-
-    def check_payload(self, payload: SwapPreparationPayload) -> None:
-        """Check payload."""
-        raise NotImplementedError
-
-    def process_payload(self, payload: SwapPreparationPayload) -> None:
-        """Process payload."""
-        raise NotImplementedError
 
 
 class FinishedMechRequestPreparationRound(DegenerateRound):
@@ -272,12 +165,12 @@ class CeloSwapperAbciApp(AbciApp[Event]):
     event_to_timeout: EventToTimeout = {}
     cross_period_persisted_keys: FrozenSet[str] = frozenset()
     db_pre_conditions: Dict[AppState, Set[str]] = {
-        DecisionMakingRound: [],
-    	MarketDataCollectionRound: [],
-    	StrategyEvaluationRound: [],
+        DecisionMakingRound: set(),
+    	MarketDataCollectionRound: set(),
+    	StrategyEvaluationRound: set(),
     }
     db_post_conditions: Dict[AppState, Set[str]] = {
-        FinishedStrategyEvaluationRound: [],
-    	FinishedMechRequestPreparationRound: [],
-    	FinishedSwapPreparationRound: [],
+        FinishedStrategyEvaluationRound: set(),
+    	FinishedMechRequestPreparationRound: set(),
+    	FinishedSwapPreparationRound: set(),
     }
