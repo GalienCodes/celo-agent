@@ -8,7 +8,7 @@ aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
   __init__.py: bafybeignlcsitiyh7szah2t3jbme7d5b7rv4unegw3mpnepdmi4ul7h4bq
   behaviours.py: bafybeibv3ovkgkgmyibl6t7pi45o2luwtonp2eyzza2e25m4zbpt3iyny4
-  composition.py: bafybeig4wndlwj3ibsvxwrfpl3ihkpettgkndzvp6hrmkqotu4gsczir4m
+  composition.py: bafybeibnznlbkwirktmbuip47ocg4bydboawfk2m3wfgk3sp6e2nidakku
   dialogues.py: bafybeiakqfqcpg7yrxt4bsyernhy5p77tci4qhmgqqjqi3ttx7zk6sklca
   fsm_specification.yaml: bafybeibfh25zomjjacmlllrfdjfofptdcrlproar267oexhz3jcx2z3a7y
   handlers.py: bafybeicj2wcb2yiudlzn36d6wzu2hfw3bupswvvhparvms7syhajfu2rk4
@@ -22,7 +22,7 @@ skills:
 - valory/registration_abci:0.1.0:bafybeibzduasg5pahk2d2glc36wlopg54ybwcdmjqbzozt2lmkp4reqsdu
 - valory/reset_pause_abci:0.1.0:bafybeib3geaw3o35aigmb4dhplxrjlsef7hbdwrozu4akiunlgyiegshj4
 - valory/termination_abci:0.1.0:bafybeifnfuy3svz5oz6kwglu35q6jn7ai3riqplyypskb7za5ejyvjmfza
-- celo/celo_swapper_abci:0.1.0:bafybeia23hd7uw4czwzm3kdipzgqliurzi22askvc24qv3r746ht5yoscu
+- celo/celo_swapper_abci:0.1.0:bafybeic6ppejl4ouaqxfqhfbua6ep4urahqydyqhqtocfhatd5g7nv23hu
 behaviours:
   main:
     args: {}
