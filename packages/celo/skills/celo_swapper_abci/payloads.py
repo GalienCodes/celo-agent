@@ -32,20 +32,6 @@ class DecisionMakingPayload(BaseTxPayload):
 
 
 @dataclass(frozen=True)
-class FinishedDecisionMakingPayload(BaseTxPayload):
-    """Represent a transaction payload for the FinishedDecisionMakingRound."""
-
-    # TODO: define your attributes
-
-
-@dataclass(frozen=True)
-class MarketDataCollectionPayload(BaseTxPayload):
-    """Represent a transaction payload for the MarketDataCollectionRound."""
-
-    # TODO: define your attributes
-
-
-@dataclass(frozen=True)
 class MechRequestPreparationPayload(BaseTxPayload):
     """Represent a transaction payload for the MechRequestPreparationRound."""
 

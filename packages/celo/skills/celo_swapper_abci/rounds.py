@@ -24,8 +24,6 @@ from typing import Dict, FrozenSet, List, Optional, Set, Tuple
 
 from packages.celo.skills.celo_swapper_abci.payloads import (
     DecisionMakingPayload,
-    FinishedDecisionMakingPayload,
-    MarketDataCollectionPayload,
     MechRequestPreparationPayload,
     StrategyEvaluationPayload,
     SwapPreparationPayload,
@@ -68,22 +66,6 @@ class DecisionMakingRound(AbstractRound):
     synchronized_data_class = SynchronizedData
 
 
-class FinishedDecisionMakingRound(AbstractRound):
-    """FinishedDecisionMakingRound"""
-
-    payload_class = FinishedDecisionMakingPayload
-    payload_attribute = ""  # TODO: update
-    synchronized_data_class = SynchronizedData
-
-
-class MarketDataCollectionRound(AbstractRound):
-    """MarketDataCollectionRound"""
-
-    payload_class = MarketDataCollectionPayload
-    payload_attribute = ""  # TODO: update
-    synchronized_data_class = SynchronizedData
-
-
 class MechRequestPreparationRound(AbstractRound):
     """MechRequestPreparationRound"""
 
@@ -108,6 +90,10 @@ class SwapPreparationRound(AbstractRound):
     synchronized_data_class = SynchronizedData
 
 
+class FinishedDecisionMakingRound(DegenerateRound):
+    """FinishedDecisionMakingRound"""
+
+
 class FinishedMechRequestPreparationRound(DegenerateRound):
     """FinishedMechRequestPreparationRound"""
 
@@ -123,18 +109,12 @@ class FinishedSwapPreparationRound(DegenerateRound):
 class CeloSwapperAbciApp(AbciApp[Event]):
     """CeloSwapperAbciApp"""
 
-    initial_round_cls: AppState = MarketDataCollectionRound
+    initial_round_cls: AppState = StrategyEvaluationRound
     initial_states: Set[AppState] = {
         DecisionMakingRound,
-        MarketDataCollectionRound,
         StrategyEvaluationRound,
     }
     transition_function: AbciAppTransitionFunction = {
-        MarketDataCollectionRound: {
-            Event.DONE: StrategyEvaluationRound,
-            Event.NO_MAJORITY: MarketDataCollectionRound,
-            Event.ROUND_TIMEOUT: MarketDataCollectionRound,
-        },
         StrategyEvaluationRound: {
             Event.DONE: FinishedStrategyEvaluationRound,
             Event.MECH: MechRequestPreparationRound,
@@ -172,7 +152,6 @@ class CeloSwapperAbciApp(AbciApp[Event]):
     cross_period_persisted_keys: FrozenSet[str] = frozenset()
     db_pre_conditions: Dict[AppState, Set[str]] = {
         DecisionMakingRound: set(),
-        MarketDataCollectionRound: set(),
         StrategyEvaluationRound: set(),
     }
     db_post_conditions: Dict[AppState, Set[str]] = {

@@ -42,8 +42,8 @@ from packages.valory.skills.termination_abci.rounds import (
 # Here we define how the transition between the FSMs should happen
 # more information here: https://docs.autonolas.network/fsm_app_introduction/#composition-of-fsm-apps
 abci_app_transition_mapping: AbciAppTransitionMapping = {
-    RegistrationAbci.FinishedRegistrationRound: CeloSwapperAbci.MarketDataCollectionRound,
-    CeloSwapperAbci.FinishedMechRequestRound: MechRequestStates.MechRequestRound,
+    RegistrationAbci.FinishedRegistrationRound: CeloSwapperAbci.StrategyEvaluationRound,
+    CeloSwapperAbci.FinishedMechRequestPreparationRound: MechRequestStates.MechRequestRound,
     CeloSwapperAbci.FinishedSwapPreparationRound: TxSettlementAbci.RandomnessTransactionSubmissionRound,
     MechFinalStates.FinishedMechRequestRound: TxSettlementAbci.RandomnessTransactionSubmissionRound,
     CeloSwapperAbci.FinishedStrategyEvaluationRound: ResetAndPauseAbci.ResetAndPauseRound,
@@ -53,7 +53,7 @@ abci_app_transition_mapping: AbciAppTransitionMapping = {
     MechFinalStates.FinishedMechRequestSkipRound: CeloSwapperAbci.StrategyEvaluationRound,
     MechFinalStates.FinishedMechResponseTimeoutRound: MechResponseStates.MechResponseRound,
     CeloSwapperAbci.FinishedDecisionMakingRound: MechResponseStates.MechResponseRound,
-    ResetAndPauseAbci.FinishedResetAndPauseRound: CeloSwapperAbci.MarketDataCollectionRound,
+    ResetAndPauseAbci.FinishedResetAndPauseRound: CeloSwapperAbci.StrategyEvaluationRound,
     ResetAndPauseAbci.FinishedResetAndPauseErrorRound: ResetAndPauseAbci.ResetAndPauseRound,
 }
 

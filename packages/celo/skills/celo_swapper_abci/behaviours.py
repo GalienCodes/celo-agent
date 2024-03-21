@@ -27,10 +27,6 @@ from packages.celo.skills.celo_swapper_abci.rounds import (
     CeloSwapperAbciApp,
     DecisionMakingPayload,
     DecisionMakingRound,
-    FinishedDecisionMakingPayload,
-    FinishedDecisionMakingRound,
-    MarketDataCollectionPayload,
-    MarketDataCollectionRound,
     MechRequestPreparationPayload,
     MechRequestPreparationRound,
     StrategyEvaluationPayload,
@@ -72,46 +68,6 @@ class DecisionMakingBehaviour(CeloSwapperBaseBehaviour):
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
             payload = DecisionMakingPayload(sender=sender, content=...)
-
-        with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
-            yield from self.send_a2a_transaction(payload)
-            yield from self.wait_until_round_end()
-
-        self.set_done()
-
-
-class FinishedDecisionMakingBehaviour(CeloSwapperBaseBehaviour):
-    """FinishedDecisionMakingBehaviour"""
-
-    matching_round: Type[AbstractRound] = FinishedDecisionMakingRound
-
-    # TODO: implement logic required to set payload content for synchronization
-    def async_act(self) -> Generator:
-        """Do the act, supporting asynchronous execution."""
-
-        with self.context.benchmark_tool.measure(self.behaviour_id).local():
-            sender = self.context.agent_address
-            payload = FinishedDecisionMakingPayload(sender=sender, content=...)
-
-        with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
-            yield from self.send_a2a_transaction(payload)
-            yield from self.wait_until_round_end()
-
-        self.set_done()
-
-
-class MarketDataCollectionBehaviour(CeloSwapperBaseBehaviour):
-    """MarketDataCollectionBehaviour"""
-
-    matching_round: Type[AbstractRound] = MarketDataCollectionRound
-
-    # TODO: implement logic required to set payload content for synchronization
-    def async_act(self) -> Generator:
-        """Do the act, supporting asynchronous execution."""
-
-        with self.context.benchmark_tool.measure(self.behaviour_id).local():
-            sender = self.context.agent_address
-            payload = MarketDataCollectionPayload(sender=sender, content=...)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -169,6 +125,8 @@ class SwapPreparationBehaviour(CeloSwapperBaseBehaviour):
     def async_act(self) -> Generator:
         """Do the act, supporting asynchronous execution."""
 
+        # Here we implemnt our code
+
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
             payload = SwapPreparationPayload(sender=sender, content=...)
@@ -183,12 +141,10 @@ class SwapPreparationBehaviour(CeloSwapperBaseBehaviour):
 class CeloSwapperRoundBehaviour(AbstractRoundBehaviour):
     """CeloSwapperRoundBehaviour"""
 
-    initial_behaviour_cls = MarketDataCollectionBehaviour
+    initial_behaviour_cls = StrategyEvaluationBehaviour
     abci_app_cls = CeloSwapperAbciApp  # type: ignore
     behaviours: Set[Type[BaseBehaviour]] = [
         DecisionMakingBehaviour,
-        FinishedDecisionMakingBehaviour,
-        MarketDataCollectionBehaviour,
         MechRequestPreparationBehaviour,
         StrategyEvaluationBehaviour,
         SwapPreparationBehaviour,
