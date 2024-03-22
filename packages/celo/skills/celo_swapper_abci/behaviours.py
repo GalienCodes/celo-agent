@@ -19,18 +19,23 @@
 
 """This package contains round behaviours of CeloSwapperAbciApp."""
 
+import json
+import uuid
 from abc import ABC
-from typing import Generator, Set, Type, cast
+from dataclasses import asdict
+from typing import Dict, Generator, Optional, Set, Type, cast
 
 from packages.celo.skills.celo_swapper_abci.models import Params
 from packages.celo.skills.celo_swapper_abci.rounds import (
     CeloSwapperAbciApp,
     DecisionMakingPayload,
     DecisionMakingRound,
+    Event,
+    MechMetadata,
     MechRequestPreparationPayload,
     MechRequestPreparationRound,
-    StrategyEvaluationPayload,
-    StrategyEvaluationRound,
+    PostTxDecisionMakingPayload,
+    PostTxDecisionMakingRound,
     SwapPreparationPayload,
     SwapPreparationRound,
     SynchronizedData,
@@ -40,6 +45,11 @@ from packages.valory.skills.abstract_round_abci.behaviours import (
     AbstractRoundBehaviour,
     BaseBehaviour,
 )
+from packages.valory.skills.celo_swapper_abci.models import Params, SharedState
+
+
+CELO_TOOL_NAME = ""
+MECH_PROMPT = ""
 
 
 class CeloSwapperBaseBehaviour(BaseBehaviour, ABC):
@@ -55,25 +65,58 @@ class CeloSwapperBaseBehaviour(BaseBehaviour, ABC):
         """Return the params."""
         return cast(Params, super().params)
 
+    @property
+    def local_state(self) -> SharedState:
+        """Return the state."""
+        return cast(SharedState, self.context.state)
+
 
 class DecisionMakingBehaviour(CeloSwapperBaseBehaviour):
     """DecisionMakingBehaviour"""
 
     matching_round: Type[AbstractRound] = DecisionMakingRound
 
-    # TODO: implement logic required to set payload content for synchronization
     def async_act(self) -> Generator:
         """Do the act, supporting asynchronous execution."""
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
+
+            # Default values
+            event = Event.DONE.value
+            swap_data = None
+
+            # If there is no mech_response, we transition into mech request
+            if not self.synchronized_data.mech_responses:
+                event = Event.MECH.value
+
+            # If the mech tool has decided not to swap, we skip swapping
+            swap_data = self.process_mech_response()
+            if not swap_data["swap"]:
+                event = Event.DONE.value
+
+            # If there is no most_voted_tx_hash, we transition into swap preparation
+            if not self.synchronized_data.most_voted_tx_hash:
+                event = Event.SWAP.value
+
             sender = self.context.agent_address
-            payload = DecisionMakingPayload(sender=sender, content=...)
+            payload = DecisionMakingPayload(
+                sender=sender,
+                event=event,
+                swap_data=json.dumps(swap_data, sort_keys=True),
+            )
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
             yield from self.wait_until_round_end()
 
         self.set_done()
+
+    def process_mech_response(self) -> Dict:
+        """Get the swap data from the mech response"""
+
+        mech_responses = self.synchronized_data.mech_responses
+
+        return {}
 
 
 class MechRequestPreparationBehaviour(CeloSwapperBaseBehaviour):
@@ -81,13 +124,15 @@ class MechRequestPreparationBehaviour(CeloSwapperBaseBehaviour):
 
     matching_round: Type[AbstractRound] = MechRequestPreparationRound
 
-    # TODO: implement logic required to set payload content for synchronization
     def async_act(self) -> Generator:
         """Do the act, supporting asynchronous execution."""
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
+            mech_requests = self.get_mech_requests()
             sender = self.context.agent_address
-            payload = MechRequestPreparationPayload(sender=sender, content=...)
+            payload = MechRequestPreparationPayload(
+                sender=sender, mech_requests=mech_requests
+            )
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -95,25 +140,20 @@ class MechRequestPreparationBehaviour(CeloSwapperBaseBehaviour):
 
         self.set_done()
 
+    def get_mech_requests(self):
+        """Get mech requests"""
 
-class StrategyEvaluationBehaviour(CeloSwapperBaseBehaviour):
-    """StrategyEvaluationBehaviour"""
+        mech_requests = [
+            asdict(
+                MechMetadata(
+                    nonce=str(uuid.uuid4()),
+                    tool=CELO_TOOL_NAME,
+                    prompt=MECH_PROMPT,
+                )
+            )
+        ]
 
-    matching_round: Type[AbstractRound] = StrategyEvaluationRound
-
-    # TODO: implement logic required to set payload content for synchronization
-    def async_act(self) -> Generator:
-        """Do the act, supporting asynchronous execution."""
-
-        with self.context.benchmark_tool.measure(self.behaviour_id).local():
-            sender = self.context.agent_address
-            payload = StrategyEvaluationPayload(sender=sender, content=...)
-
-        with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
-            yield from self.send_a2a_transaction(payload)
-            yield from self.wait_until_round_end()
-
-        self.set_done()
+        return json.dumps(mech_requests)
 
 
 class SwapPreparationBehaviour(CeloSwapperBaseBehaviour):
@@ -121,15 +161,44 @@ class SwapPreparationBehaviour(CeloSwapperBaseBehaviour):
 
     matching_round: Type[AbstractRound] = SwapPreparationRound
 
-    # TODO: implement logic required to set payload content for synchronization
     def async_act(self) -> Generator:
         """Do the act, supporting asynchronous execution."""
 
-        # Here we implemnt our code
-
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = SwapPreparationPayload(sender=sender, content=...)
+            tx_hash = yield from self.get_tx_hash()
+            payload = SwapPreparationPayload(sender=sender, tx_hash=tx_hash)
+
+        with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
+            yield from self.send_a2a_transaction(payload)
+            yield from self.wait_until_round_end()
+
+        self.set_done()
+
+    def get_tx_hash(self) -> Generator[None, None, Optional[str]]:
+        """Get the swap tx hash"""
+
+        tx_hash = None
+
+        swap_data = self.synchronized_data.swap_data
+
+        # Check approval + Approval + Swap
+
+        return tx_hash
+
+
+class PostTxDecisionMakingBehaviour(CeloSwapperBaseBehaviour):
+    """PostTxDecisionMakingBehaviour"""
+
+    matching_round: Type[AbstractRound] = PostTxDecisionMakingRound
+
+    def async_act(self) -> Generator:
+        """Do the act, supporting asynchronous execution."""
+
+        with self.context.benchmark_tool.measure(self.behaviour_id).local():
+            event = cast(str, self.synchronized_data.post_tx_event)
+            sender = self.context.agent_address
+            payload = PostTxDecisionMakingPayload(sender=sender, event=event)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -141,11 +210,11 @@ class SwapPreparationBehaviour(CeloSwapperBaseBehaviour):
 class CeloSwapperRoundBehaviour(AbstractRoundBehaviour):
     """CeloSwapperRoundBehaviour"""
 
-    initial_behaviour_cls = StrategyEvaluationBehaviour
+    initial_behaviour_cls = DecisionMakingBehaviour
     abci_app_cls = CeloSwapperAbciApp  # type: ignore
     behaviours: Set[Type[BaseBehaviour]] = [
         DecisionMakingBehaviour,
         MechRequestPreparationBehaviour,
-        StrategyEvaluationBehaviour,
         SwapPreparationBehaviour,
+        PostTxDecisionMakingBehaviour,
     ]

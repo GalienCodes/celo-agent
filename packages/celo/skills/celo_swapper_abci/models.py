@@ -19,6 +19,8 @@
 
 """This module contains the shared state for the abci skill of CeloSwapperAbciApp."""
 
+from typing import Any
+
 from packages.celo.skills.celo_swapper_abci.rounds import CeloSwapperAbciApp
 from packages.valory.skills.abstract_round_abci.models import BaseParams
 from packages.valory.skills.abstract_round_abci.models import (
@@ -36,6 +38,18 @@ class SharedState(BaseSharedState):
     abci_app_cls = CeloSwapperAbciApp
 
 
-Params = BaseParams
 Requests = BaseRequests
 BenchmarkTool = BaseBenchmarkTool
+
+
+class Params(BaseParams):
+    """Parameters."""
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        """Initialize the parameters object."""
+
+        self.manual_points_stream_id = self._ensure(
+            "manual_points_stream_id", kwargs, str
+        )
+
+        super().__init__(*args, **kwargs)

@@ -42,18 +42,18 @@ from packages.valory.skills.termination_abci.rounds import (
 # Here we define how the transition between the FSMs should happen
 # more information here: https://docs.autonolas.network/fsm_app_introduction/#composition-of-fsm-apps
 abci_app_transition_mapping: AbciAppTransitionMapping = {
-    RegistrationAbci.FinishedRegistrationRound: CeloSwapperAbci.StrategyEvaluationRound,
+    RegistrationAbci.FinishedRegistrationRound: CeloSwapperAbci.DecisionMakingRound,
     CeloSwapperAbci.FinishedMechRequestPreparationRound: MechRequestStates.MechRequestRound,
     CeloSwapperAbci.FinishedSwapPreparationRound: TxSettlementAbci.RandomnessTransactionSubmissionRound,
     MechFinalStates.FinishedMechRequestRound: TxSettlementAbci.RandomnessTransactionSubmissionRound,
-    CeloSwapperAbci.FinishedStrategyEvaluationRound: ResetAndPauseAbci.ResetAndPauseRound,
-    TxSettlementAbci.FinishedTransactionSubmissionRound: CeloSwapperAbci.DecisionMakingRound,
+    CeloSwapperAbci.FinishedDecisionMakingRound: ResetAndPauseAbci.ResetAndPauseRound,
+    TxSettlementAbci.FinishedTransactionSubmissionRound: CeloSwapperAbci.PostTxDecisionMakingRound,
     TxSettlementAbci.FailedRound: TxSettlementAbci.RandomnessTransactionSubmissionRound,
-    MechFinalStates.FinishedMechResponseRound: CeloSwapperAbci.StrategyEvaluationRound,
-    MechFinalStates.FinishedMechRequestSkipRound: CeloSwapperAbci.StrategyEvaluationRound,
+    MechFinalStates.FinishedMechResponseRound: CeloSwapperAbci.DecisionMakingRound,
+    MechFinalStates.FinishedMechRequestSkipRound: CeloSwapperAbci.DecisionMakingRound,
     MechFinalStates.FinishedMechResponseTimeoutRound: MechResponseStates.MechResponseRound,
-    CeloSwapperAbci.FinishedDecisionMakingRound: MechResponseStates.MechResponseRound,
-    ResetAndPauseAbci.FinishedResetAndPauseRound: CeloSwapperAbci.StrategyEvaluationRound,
+    CeloSwapperAbci.FinishedPostTxDecisionMakingRound: MechResponseStates.MechResponseRound,
+    ResetAndPauseAbci.FinishedResetAndPauseRound: CeloSwapperAbci.DecisionMakingRound,
     ResetAndPauseAbci.FinishedResetAndPauseErrorRound: ResetAndPauseAbci.ResetAndPauseRound,
 }
 

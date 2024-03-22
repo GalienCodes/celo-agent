@@ -20,6 +20,7 @@
 """This module contains the transaction payloads of the CeloSwapperAbciApp."""
 
 from dataclasses import dataclass
+from typing import Optional
 
 from packages.valory.skills.abstract_round_abci.base import BaseTxPayload
 
@@ -28,25 +29,26 @@ from packages.valory.skills.abstract_round_abci.base import BaseTxPayload
 class DecisionMakingPayload(BaseTxPayload):
     """Represent a transaction payload for the DecisionMakingRound."""
 
-    # TODO: define your attributes
+    event: str
+    swap_data: Optional[str]
 
 
 @dataclass(frozen=True)
 class MechRequestPreparationPayload(BaseTxPayload):
     """Represent a transaction payload for the MechRequestPreparationRound."""
 
-    # TODO: define your attributes
-
-
-@dataclass(frozen=True)
-class StrategyEvaluationPayload(BaseTxPayload):
-    """Represent a transaction payload for the StrategyEvaluationRound."""
-
-    # TODO: define your attributes
+    mech_requests: str
 
 
 @dataclass(frozen=True)
 class SwapPreparationPayload(BaseTxPayload):
     """Represent a transaction payload for the SwapPreparationRound."""
 
-    # TODO: define your attributes
+    tx_hash: Optional[str]
+
+
+@dataclass(frozen=True)
+class PostTxDecisionMakingPayload(BaseTxPayload):
+    """Represent a transaction payload for the PostTxDecisionMakingRound."""
+
+    event: str
