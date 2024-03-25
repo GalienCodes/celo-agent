@@ -97,12 +97,8 @@ def trading_strategy(json_data):
 
 def run(**kwargs) -> Tuple[str, Optional[str], Optional[Dict[str, Any]], Any]:
     """Run the trading task"""
-    #tool = kwargs["tool"]
     prompt = kwargs["prompt"]
     api_key = kwargs["api_keys"]
-    #max_tokens = kwargs.get("max_tokens", generation_config["max_output_tokens"])
-    #temperature = kwargs.get("temperature", generation_config["temperature"])
-    #engine = TOOL_TO_ENGINE[tool]
     
   
     # Configure GenerativeAI model with API key
