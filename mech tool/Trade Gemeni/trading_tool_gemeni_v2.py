@@ -1,9 +1,4 @@
 import json
-from collections import defaultdict
-from concurrent.futures import Future, ThreadPoolExecutor
-from heapq import nlargest
-from itertools import islice
-from string import punctuation
 from typing import Any, Dict, Generator, List, Optional, Tuple, Callable
 
 import google.generativeai as genai
@@ -70,7 +65,7 @@ model = genai.GenerativeModel(model_name="gemini-1.0-pro",
 
 
 
-def trading_advice(json_data):
+def trading_strategy(json_data):
     # Parse JSON data
     data = json.loads(json_data)
     
@@ -120,10 +115,10 @@ def run(**kwargs) -> Tuple[str, Optional[str], Optional[Dict[str, Any]], Any]:
     trading_prompt,
     stream=False)
     
-    advice = trading_advice(response.text)
+    advice = trading_strategy(response.text)
 
     return print(response.text)
 
 dict_1 = dict( prompt = "How should I trade between bitcoin and celo based on the current market data as at 25/02/2024", api_keys="")
 
-x = run(**dict_1)
+run(**dict_1)
