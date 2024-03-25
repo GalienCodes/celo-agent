@@ -122,7 +122,7 @@ def run(**kwargs) -> Tuple[str, Optional[str], Optional[Dict[str, Any]], Any]:
     
     advice = trading_advice(response.text)
 
-    return advice
+    return print(response.text)
 
 dict_1 = dict( prompt = "How should I trade between bitcoin and celo based on the current market data as at 25/02/2024", api_keys="")
 
