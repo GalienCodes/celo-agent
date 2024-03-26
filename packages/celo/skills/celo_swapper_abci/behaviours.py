@@ -24,7 +24,7 @@ import uuid
 from abc import ABC
 from dataclasses import asdict
 from typing import Dict, Generator, Optional, Set, Type, cast
-
+from hexbytes import HexBytes
 from packages.celo.skills.celo_swapper_abci.models import Params
 from packages.celo.skills.celo_swapper_abci.rounds import (
     CeloSwapperAbciApp,
@@ -46,6 +46,14 @@ from packages.valory.skills.abstract_round_abci.behaviours import (
     BaseBehaviour,
 )
 from packages.valory.skills.celo_swapper_abci.models import Params, SharedState
+from packages.celo.contracts.erc_20.contract import ERC20Contract
+from packages.celo.contracts.swap_router.contract import UniswapV3SwapRouterContract
+from packages.valory.contracts.multisend.contract import (
+    MultiSendContract,
+    MultiSendOperation,
+)
+from packages.valory.protocols.contract_api import ContractApiMessage
+
 
 
 CELO_TOOL_NAME = ""
@@ -175,16 +183,173 @@ class SwapPreparationBehaviour(CeloSwapperBaseBehaviour):
 
         self.set_done()
 
+
     def get_tx_hash(self) -> Generator[None, None, Optional[str]]:
         """Get the swap tx hash"""
 
-        tx_hash = None
+        tx_list = []
 
+        # swap_data = {
+        #     "from_token": "CELO",
+        #     "to_token": "cUSD",
+        #     "amount": 10
+        # }
         swap_data = self.synchronized_data.swap_data
 
-        # Check approval + Approval + Swap
+        # Are we swapping from cUSD to CELO orthe other way around?
+        # If we're going CELO -> cUSD we need to check our allowance
 
-        return tx_hash
+        if swap_data["from_token"] == "cUSD" and swap_data["to_token"] == "CELO":
+            # Check allowance
+            allowance = self.get_allowance()
+
+            if allowance < swap_data["amount"]:
+
+                # Increase allowance
+                approve_tx_data = self.get_approve_tx_data()
+
+                if not approve_tx_data:
+                    return None
+
+                tx_list.append(approve_tx_data)
+
+        # Get swap tx data
+        swap_tx_data = self.get_swap_tx_data()
+
+        if not swap_tx_data:
+            return None
+
+        tx_list.append(swap_tx_data)
+
+        # Do we need multicall?
+        if len(tx_list) > 1:
+            tx_data = self.get_multicall_data(tx_list)
+        else:
+            tx_data = tx_list[0]
+
+        # Safe tx data
+        safe_tx_hash = self.get_safe_tx_data(tx_data)
+
+        if not safe_tx_hash:
+            return None
+
+        return safe_tx_hash
+
+
+    def get_allowance(self):
+        """Get the allowance"""
+        contract_api_msg = yield from self.get_contract_api_response(
+            performative=ContractApiMessage.Performative.GET_STATE,  # type: ignore
+            contract_address=self.params.cusd_address,
+            contract_id=str(ERC20Contract.contract_id),
+            contract_callable="allowance",
+            owner_address=self.params.safe_contract_address,
+            spender_address=self.params.router_contract_address,
+        )
+
+        if contract_api_msg.performative != ContractApiMessage.Performative.STATE:
+            self.context.logger.error("Could not read the allowance")
+            return None
+
+        return contract_api_msg.state.body["allowance"]
+
+
+    def get_approve_tx_data(self):
+        """Update the allowance"""
+        contract_api_msg = yield from self.get_contract_api_response(
+            performative=ContractApiMessage.Performative.GET_RAW_TRANSACTION,  # type: ignore
+            contract_address=self.params.cusd_address,
+            contract_id=str(ERC20Contract.contract_id),
+            contract_callable="approve",
+            owner_address=self.params.safe_contract_address,
+            spender_address=self.params.router_contract_address,
+        )
+
+        if contract_api_msg.performative == ContractApiMessage.Performative.ERROR:
+            self.context.logger.error(f"Could not read the allowance: {contract_api_msg}")
+            return None
+
+        return {
+            "operation": MultiSendOperation.CALL,
+            "to": self.params.cusd_address,
+            "value": 0,
+            "data": HexBytes(
+                cast(bytes, contract_api_msg.raw_transaction.body["data"]).hex()
+            ),
+        }
+
+
+    def get_swap_tx_data(self, amount_in):
+        """get_allowance"""
+        contract_api_msg = yield from self.get_contract_api_response(
+            performative=ContractApiMessage.Performative.GET_RAW_TRANSACTION,  # type: ignore
+            contract_address=self.params.swap_router_address,
+            contract_id=str(UniswapV3SwapRouterContract.contract_id),
+            contract_callable="exact_input_single",
+            amount_in=amount_in,
+            recipient=self.params.safe_contract_address,
+        )
+
+        if contract_api_msg.performative != ContractApiMessage.Performative.RAW_TRANSACTION:
+            self.context.logger.error(f"Could not get the swap tx data: {contract_api_msg}")
+            return None
+
+        return {
+            "operation": MultiSendOperation.CALL,
+            "to": self.params.cusd_address,
+            "value": 0,
+            "data": HexBytes(
+                cast(bytes, contract_api_msg.raw_transaction.body["data"]).hex()
+            ),
+        }
+
+
+    def get_multisend_data(self, tx_list):
+        """Get the tx data from the multisend contract"""
+        contract_api_msg = yield from self.get_contract_api_response(
+            performative=ContractApiMessage.Performative.GET_RAW_TRANSACTION,  # type: ignore
+            contract_address=self.synchronized_data.safe_contract_address,
+            contract_id=str(MultiSendContract.contract_id),
+            contract_callable="get_tx_data",
+            multi_send_txs=tx_list,
+        )
+
+        if contract_api_msg.performative != ContractApiMessage.Performative.RAW_TRANSACTION:
+            self.context.logger.error(f"Could not get the multisend tx data: {contract_api_msg}")
+            return None
+
+        multisend_data = cast(str, contract_api_msg.raw_transaction.body["data"])
+        multisend_data = multisend_data[2:]
+
+        return multisend_data
+
+
+    def get_safe_tx_data(self, tx_data):
+        """Get the tx data from the Safe contract"""
+        contract_api_msg = yield from self.get_contract_api_response(
+            performative=ContractApiMessage.Performative.GET_RAW_TRANSACTION,  # type: ignore
+            contract_address=self.synchronized_data.safe_contract_address,
+            contract_id=str(GnosisSafeContract.contract_id),
+            contract_callable="get_raw_safe_transaction_hash",
+            to_address=self.synchronized_data.multisend_contract_address,
+            value=0,
+            data=bytes.fromhex(multisend_data),
+            operation=SafeOperation.DELEGATE_CALL.value,
+            safe_tx_gas=strategy["safe_tx_gas"]["enter"],
+            safe_nonce=strategy["safe_nonce"],
+        )
+        safe_tx_hash = cast(str, contract_api_msg.raw_transaction.body["tx_hash"])
+        safe_tx_hash = safe_tx_hash[2:]
+        self.context.logger.info(f"Hash of the Safe transaction: {safe_tx_hash}")
+
+        payload_string = hash_payload_to_hex(
+            safe_tx_hash=safe_tx_hash,
+            ether_value=0,
+            safe_tx_gas=strategy["safe_tx_gas"]["enter"],
+            to_address=self.synchronized_data.multisend_contract_address,
+            data=bytes.fromhex(multisend_data),
+            operation=SafeOperation.DELEGATE_CALL.value,
+        )
 
 
 class PostTxDecisionMakingBehaviour(CeloSwapperBaseBehaviour):

@@ -121,12 +121,10 @@ class SynchronizedData(BaseSynchronizedData):
         return cast(str, self.db.get("post_tx_event", None))
 
     @property
-    def swap_data(self) -> Optional[str]:
+    def swap_data(self) -> Dict:
         """Get the post_tx_event."""
-        serialized = self.db.get("swap_data", None)
-        if serialized:
-            return json.loads(serialized)
-        return None
+        serialized = self.db.get_strict("swap_data")
+        return json.loads(serialized)
 
 
 class DecisionMakingRound(CollectSameUntilThresholdRound):
